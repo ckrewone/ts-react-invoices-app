@@ -34,11 +34,15 @@ class App extends Component<any, AppStates> {
 
     constructor(props: any) {
         super(props);
-
+        let localInvoices: any = localStorage.getItem('invoices');
+        if (localInvoices) {
+            localInvoices = JSON.parse(localInvoices);
+            localInvoices = localInvoices.map((el: any) => JSON.parse(el));
+        }
         this.state = {
             isShowModal: false,
-            invoices: []
-        }
+            invoices: localInvoices ? localInvoices : []
+        };
     }
 
 
@@ -57,7 +61,10 @@ class App extends Component<any, AppStates> {
     onChangeInvoice = (myInvoce: Invoice) => {
         this.setState({
             invoices: [...this.state.invoices, myInvoce],
-        })
+        }, () => {
+            if (this.state.invoices !== null)
+                localStorage.setItem('invoices', (this.state.invoices as []).map((el: any) => JSON.stringify(el)).toString());
+        });
     };
 
     deleteInvoice = (index: number) => {
@@ -69,11 +76,10 @@ class App extends Component<any, AppStates> {
     };
 
     render() {
-        const isShowModal = this.state.isShowModal;
-
         return (
             <div className="App">
-                <InvoiceModal onClose={this.modalClose} isShown={isShowModal} onChangeInvoice={this.onChangeInvoice}/>
+                <InvoiceModal onClose={this.modalClose} isShown={this.state.isShowModal}
+                              onChangeInvoice={this.onChangeInvoice}/>
                 <Grid container>
                     <NavBar onAddClick={this.onAddClick}/>
                     <Grid item xs={1}/>
@@ -82,13 +88,15 @@ class App extends Component<any, AppStates> {
                             <List>
                                 {this.state.invoices.map((invoce: Invoice, index) => {
                                     return (
-                                        <InvoiceListItem deleteInvoice={this.deleteInvoice}
-                                                         index={index}
-                                                         key={index}
-                                                         numberInvoice={invoce.number}
-                                                         invoiceFrom={invoce.invoiceFrom}
+                                        <InvoiceListItem
+                                            deleteInvoice={this.deleteInvoice}
+                                            index={index}
+                                            key={index}
+                                            numberInvoice={invoce.number}
+                                            invoiceFrom={invoce.invoiceFrom}
                                         />
-                                    )})
+                                    )
+                                })
                                 }
                             </List>
                         </div>
