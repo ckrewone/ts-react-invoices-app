@@ -1,14 +1,6 @@
 import React, {Component} from 'react';
 import {Grid} from "@material-ui/core";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import IconButton from "@material-ui/core/IconButton";
-import FolderIcon from '@material-ui/icons/Folder';
-import DeleteIcon from '@material-ui/icons/Delete';
 import NavBar from './Navbar/NavBar';
 import InvoiceModal from "./Modal/InvoiceModal";
 import {Element} from './Modal/InvoiceModal';
@@ -67,7 +59,6 @@ class App extends Component<any, AppStates> {
         this.setState({
             invoices: [...this.state.invoices, myInvoce],
         }, () => {
-            console.log(this.state.invoices);
             let temp = (this.state.invoices as Invoice[]).map((el: any) => {
                 el.elements = `[${el.elements.map((els: object) => JSON.stringify(els)).toString()}]`;
                 return JSON.stringify(el);

@@ -6,7 +6,6 @@ import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 import {DatePicker, MuiPickersUtilsProvider} from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import IconButton from "@material-ui/core/IconButton";
 import AddButton from '@material-ui/icons/Add';
 import {Invoice} from "../App";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -16,8 +15,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import FormControl from "@material-ui/core/FormControl";
-import FormGroup from "@material-ui/core/FormGroup";
 
 export interface Element {
     quantity: number;
