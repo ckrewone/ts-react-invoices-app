@@ -36,8 +36,12 @@ class App extends Component<any, AppStates> {
         super(props);
         let localInvoices: any = localStorage.getItem('invoices');
         if (localInvoices) {
-            localInvoices = JSON.parse(localInvoices);
-            localInvoices = localInvoices.map((el: any) => JSON.parse(el));
+            localInvoices = [JSON.parse(localInvoices)];
+            localInvoices = localInvoices.map((el: any) => {
+                el.elements = JSON.parse(el.elements);
+                return el;
+            });
+            console.log(localInvoices);
         }
         this.state = {
             isShowModal: false,
@@ -58,12 +62,17 @@ class App extends Component<any, AppStates> {
         });
     };
 
+
     onChangeInvoice = (myInvoce: Invoice) => {
         this.setState({
             invoices: [...this.state.invoices, myInvoce],
         }, () => {
-            if (this.state.invoices !== null)
-                localStorage.setItem('invoices', (this.state.invoices as []).map((el: any) => JSON.stringify(el)).toString());
+            console.log(this.state.invoices);
+            let temp = (this.state.invoices as Invoice[]).map((el: any) => {
+                el.elements = `[${el.elements.map((els: object) => JSON.stringify(els)).toString()}]`;
+                return JSON.stringify(el);
+            });
+            localStorage.setItem('invoices', temp.toString());
         });
     };
 
