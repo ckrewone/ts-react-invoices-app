@@ -244,13 +244,13 @@ export default class InvoiceModal extends React.Component<InvoiceModalProps, Inv
                                         onChange={this.onChangePaidDate}
                                     />
                                 </Grid>
-                                <Grid item>
+                                <Grid item style={{paddingTop: 30}}>
                                     <Button onClick={this.addElement} color='primary' variant='contained'>
                                         ADD <AddButton/>
                                     </Button>
                                 </Grid>
                                 <Grid container alignItems='center'>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={4}>
                                         <TextField
                                             id="standard-uncontrolled"
                                             label="Name"
@@ -292,7 +292,7 @@ export default class InvoiceModal extends React.Component<InvoiceModalProps, Inv
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={2}>
                                         Total: {this.state.elementPrice * this.state.elementQuantity}
                                     </Grid>
                                 </Grid>
@@ -328,7 +328,7 @@ export default class InvoiceModal extends React.Component<InvoiceModalProps, Inv
                                         </TableBody>
                                     </Table>
                                 </Grid>
-                                <Grid item>
+                                <Grid item style={{paddingTop: 30}}>
                                     <Button onClick={this.addInvoice} color='primary' variant='contained'>
                                         Add invoice
                                     </Button>

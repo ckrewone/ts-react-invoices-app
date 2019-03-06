@@ -28,19 +28,17 @@ class App extends Component<any, AppStates> {
         super(props);
         let localInvoices: any = localStorage.getItem('invoices');
         if (localInvoices) {
-            localInvoices = [JSON.parse(localInvoices)];
+            localInvoices = JSON.parse(localInvoices);
             localInvoices = localInvoices.map((el: any) => {
                 el.elements = JSON.parse(el.elements);
                 return el;
             });
-            console.log(localInvoices);
         }
         this.state = {
             isShowModal: false,
             invoices: localInvoices ? localInvoices : []
         };
     }
-
 
     onAddClick = () => {
         this.setState({
@@ -58,13 +56,7 @@ class App extends Component<any, AppStates> {
     onChangeInvoice = (myInvoce: Invoice) => {
         this.setState({
             invoices: [...this.state.invoices, myInvoce],
-        }, () => {
-            let temp = (this.state.invoices as Invoice[]).map((el: any) => {
-                el.elements = `[${el.elements.map((els: object) => JSON.stringify(els)).toString()}]`;
-                return JSON.stringify(el);
-            });
-            localStorage.setItem('invoices', temp.toString());
-        });
+        }, this.updateLocalStorageInvoices);
     };
 
     deleteInvoice = (index: number) => {
@@ -72,7 +64,17 @@ class App extends Component<any, AppStates> {
             invoices: this.state.invoices.filter((elem, i) => {
                 if (i !== index) return elem;
             }),
+        }, this.updateLocalStorageInvoices);
+    };
+
+    private updateLocalStorageInvoices = () => {
+        console.log(this.state.invoices)
+        let temp = (this.state.invoices as Invoice[]).map((el: any) => {
+            !Array.isArray(el.elements) ? el.elements = JSON.parse(el.elements) : null;
+            el.elements = `[${(el.elements as any[]).map((els: object) => JSON.stringify(els)).toString()}]`;
+            return JSON.stringify(el);
         });
+        localStorage.setItem('invoices', `[${temp.toString()}]`);
     };
 
     render() {
