@@ -7,13 +7,16 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ViewModal from "../Modal/ViewModal";
+import {Invoice} from "../App";
 
 
 interface InvoiceListItemProps {
     deleteInvoice: (i: number) => void;
     index: number;
-    numberInvoice: string;
-    invoiceFrom: string;
+    invoice: Invoice;
+    showViewModal: () => void;
+    clickedIndex: (id: number) => void;
 }
 
 
@@ -22,17 +25,22 @@ export default class InvoiceListItem extends React.Component<InvoiceListItemProp
         super(props);
     }
 
+    handleClick = () => {
+        this.props.showViewModal()
+        this.props.clickedIndex(this.props.index);
+    };
+
     render() {
         return (
-            <ListItem key={this.props.index}>
+            <ListItem key={this.props.index} button onClick={this.handleClick}>
                 <ListItemAvatar>
                     <Avatar>
                         <FolderIcon/>
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                    primary={this.props.numberInvoice}
-                    secondary={this.props.invoiceFrom}
+                    primary={this.props.invoice.number}
+                    secondary={this.props.invoice.invoiceFrom}
                 />
                 <ListItemSecondaryAction>
                     <IconButton onClick={() => this.props.deleteInvoice(this.props.index)} aria-label="Delete">

@@ -5,6 +5,7 @@ import NavBar from './Navbar/NavBar';
 import InvoiceModal from "./Modal/InvoiceModal";
 import {Element} from './Modal/InvoiceModal';
 import InvoiceListItem from "./List/InvoiceListItem";
+import ViewModal from "./Modal/ViewModal";
 
 export interface Invoice {
     number: string,
@@ -17,8 +18,10 @@ export interface Invoice {
 }
 
 interface AppStates {
-    isShowModal: boolean;
+    isShowAddModal: boolean;
+    isShowViewModal: boolean;
     invoices: Invoice[];
+    showId: number;
 }
 
 
@@ -35,23 +38,36 @@ class App extends Component<any, AppStates> {
             });
         }
         this.state = {
-            isShowModal: false,
+            showId:0,
+            isShowAddModal: false,
+            isShowViewModal: false,
             invoices: localInvoices ? localInvoices : []
         };
     }
 
+    showViewModal = () => {
+        this.setState({
+            isShowViewModal: true,
+        })
+    };
+
+    closeViewModal = () => {
+        this.setState({
+            isShowViewModal: false,
+        })
+    };
+
     onAddClick = () => {
         this.setState({
-            isShowModal: true
+            isShowAddModal: true,
         });
     };
 
     modalClose = () => {
         this.setState({
-            isShowModal: false
+            isShowAddModal: false,
         });
     };
-
 
     onChangeInvoice = (myInvoce: Invoice) => {
         this.setState({
@@ -67,21 +83,34 @@ class App extends Component<any, AppStates> {
         }, this.updateLocalStorageInvoices);
     };
 
+    clickedId = (id: number) => {
+        this.setState({
+            showId: id,
+        });
+    }
+
     private updateLocalStorageInvoices = () => {
-        console.log(this.state.invoices)
         let temp = (this.state.invoices as Invoice[]).map((el: any) => {
             !Array.isArray(el.elements) ? el.elements = JSON.parse(el.elements) : null;
             el.elements = `[${(el.elements as any[]).map((els: object) => JSON.stringify(els)).toString()}]`;
             return JSON.stringify(el);
         });
         localStorage.setItem('invoices', `[${temp.toString()}]`);
+        this.setState({
+            invoices: this.state.invoices.map((el) => {
+                if (!Array.isArray(el.elements))
+                    el.elements = JSON.parse(el.elements);
+                return el;
+            })
+        })
     };
 
     render() {
         return (
             <div className="App">
-                <InvoiceModal onClose={this.modalClose} isShown={this.state.isShowModal}
+                <InvoiceModal onClose={this.modalClose} isShown={this.state.isShowAddModal}
                               onChangeInvoice={this.onChangeInvoice}/>
+                <ViewModal invoice={this.state.invoices[this.state.showId]} isShown={this.state.isShowViewModal} closeModal={this.closeViewModal}/>
                 <Grid container>
                     <NavBar onAddClick={this.onAddClick}/>
                     <Grid item xs={1}/>
@@ -94,8 +123,9 @@ class App extends Component<any, AppStates> {
                                             deleteInvoice={this.deleteInvoice}
                                             index={index}
                                             key={index}
-                                            numberInvoice={invoce.number}
-                                            invoiceFrom={invoce.invoiceFrom}
+                                            invoice={invoce}
+                                            showViewModal={this.showViewModal}
+                                            clickedIndex={this.clickedId}
                                         />
                                     )
                                 })

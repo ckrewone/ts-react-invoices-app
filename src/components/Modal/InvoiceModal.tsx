@@ -226,8 +226,10 @@ export default class InvoiceModal extends React.Component<InvoiceModalProps, Inv
                                 </Grid>
                                 <Grid item>
                                     <Switch
+                                        checked={this.state.isPaid}
                                         value="checkedB"
                                         color="primary"
+                                        onChange={() => this.setState({isPaid:  !this.state.isPaid})}
                                     /> Paid
                                 </Grid>
                                 <Grid item>
@@ -311,7 +313,7 @@ export default class InvoiceModal extends React.Component<InvoiceModalProps, Inv
                                         <TableBody>
                                             {this.state.elements.map((elem, index) => {
                                                 return (
-                                                    <TableRow>
+                                                    <TableRow key={index}>
                                                         <TableCell>
                                                             <Button onClick={() => this.deleteElement(index)}
                                                                     aria-label="Delete">
