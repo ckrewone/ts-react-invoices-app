@@ -1,15 +1,8 @@
 import 'date-fns';
 import * as React from 'react';
 import Modal from '@material-ui/core/Modal';
-import TextField from "@material-ui/core/TextField";
-import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
-import {DatePicker, MuiPickersUtilsProvider} from 'material-ui-pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import AddButton from '@material-ui/icons/Add';
 import {Invoice} from "../App";
-import DeleteIcon from "@material-ui/icons/Delete";
-import {Button} from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -57,7 +50,6 @@ export default class ViewModal extends React.Component<ViewModalProps, ViewModal
         });
 
         if (this.props.invoice) {
-            console.log(this.props.invoice.isPaid)
             return (
                 <Modal
                     aria-labelledby="simple-modal-title"
