@@ -8,6 +8,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import dateFormat from 'dateformat';
 
 export interface Element {
     quantity: number;
@@ -64,7 +65,7 @@ export default class ViewModal extends React.Component<ViewModalProps, ViewModal
                                     <p>From: {this.props.invoice.invoiceFrom}</p>
                                     <p>To: {this.props.invoice.invoiceTo}</p>
                                     <p>Paid : {this.props.invoice.isPaid ? 'Yes' : 'No'}</p>
-                                    <p>Order Date: {this.props.invoice.sellDate}</p>
+                                    <p>Order Date: {dateFormat(new Date(this.props.invoice.sellDate),'dddd, mmmm dS, yyyy, h:MM:ss')}</p>
                                     {
                                         this.props.invoice.isPaid ?
                                             <p>Paid Date: {this.props.invoice.paidDate}</p>
