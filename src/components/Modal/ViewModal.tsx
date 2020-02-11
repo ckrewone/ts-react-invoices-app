@@ -105,7 +105,9 @@ export default class ViewModal extends React.Component<ViewModalProps, ViewModal
             );
         }
         else
-            return null;
-    }
+            return (
+                <div>NOT FOUND</div>
+            )
+
 
 }

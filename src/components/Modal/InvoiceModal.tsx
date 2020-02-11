@@ -38,7 +38,7 @@ interface InvoiceModalStates {
     elements: Element[],
     elementName: string;
     elementQuantity: number;
-    elementPrice: number;
+    elementPrice: string;
     fullCost: number;
 }
 
@@ -56,7 +56,7 @@ export default class InvoiceModal extends React.Component<InvoiceModalProps, Inv
             elements: [] as Element[],
             elementName: '',
             elementQuantity: 0,
-            elementPrice: 0,
+            elementPrice: '0',
             fullCost: 0,
         }
     }
@@ -87,7 +87,7 @@ export default class InvoiceModal extends React.Component<InvoiceModalProps, Inv
     updateElements = () => {
         const defElem: Element = {
             quantity: this.state.elementQuantity,
-            price: this.state.elementPrice,
+            price: Number(this.state.elementPrice),
             name: this.state.elementName,
         };
 
@@ -127,7 +127,7 @@ export default class InvoiceModal extends React.Component<InvoiceModalProps, Inv
             elements: [],
             elementName: '',
             elementQuantity: 0,
-            elementPrice: 0,
+            elementPrice: '0',
         });
     };
 
@@ -135,7 +135,7 @@ export default class InvoiceModal extends React.Component<InvoiceModalProps, Inv
         this.setState({
             elementName: '',
             elementQuantity: 0,
-            elementPrice: 0,
+            elementPrice: '0',
         })
     }
 
@@ -286,7 +286,7 @@ export default class InvoiceModal extends React.Component<InvoiceModalProps, Inv
                                             label="Price"
                                             value={this.state.elementPrice ? this.state.elementPrice : ''}
                                             onChange={(e) => {
-                                                this.setState({elementPrice: Number(e.target.value)})
+                                                this.setState({elementPrice: e.target.value})
                                             }}
                                             margin="normal"
                                             style={{
@@ -295,7 +295,7 @@ export default class InvoiceModal extends React.Component<InvoiceModalProps, Inv
                                         />
                                     </Grid>
                                     <Grid item xs={2}>
-                                        Total: {this.state.elementPrice * this.state.elementQuantity}
+                                        Total: {Number(this.state.elementPrice) * this.state.elementQuantity}
                                     </Grid>
                                 </Grid>
                                 <h3>Bild: {this.state.fullCost}</h3>

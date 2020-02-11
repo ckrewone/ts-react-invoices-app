@@ -89,10 +89,12 @@ class App extends Component<any, AppStates> {
         });
     }
 
-    private updateLocalStorageInvoices = () => {
-        let temp = (this.state.invoices as Invoice[]).map((el: any) => {
-            !Array.isArray(el.elements) ? el.elements = JSON.parse(el.elements) : null;
-            el.elements = `[${(el.elements as any[]).map((els: object) => JSON.stringify(els)).toString()}]`;
+    updateLocalStorageInvoices = () => {
+        let temp = (this.state.invoices).map((el: any) => {
+            if(!Array.isArray(el.elements)){
+                el.elements = JSON.parse(el.elements)
+            };
+            el.elements = `[${(el.elements).map((els: object) => JSON.stringify(els)).toString()}]`;
             return JSON.stringify(el);
         });
         localStorage.setItem('invoices', `[${temp.toString()}]`);
